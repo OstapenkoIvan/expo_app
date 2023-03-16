@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import Svg, { Path, Circle } from "react-native-svg";
+
 import CustomTextInput from "../components/CustomTextInput";
 import HeaderText from "../components/HeaderText";
 import SubmitButton from "../components/SubmitButton";
 import ToggleAuthButton from "../components/ToggleAuthButton";
+
+import AddAvatar from "../assets/add.svg";
 
 import { useTogglePasswordVisibility } from "../hooks/useTogglePasswordVisibility";
 
@@ -13,6 +18,7 @@ export default ({ authType }) => {
   const [password, setPassword] = useState("");
   const [isAvatar, setIsAvatar] = useState(false);
   const [isFocused, setIsFocused] = useState("notFocused");
+  const navigation = useNavigation();
 
   const { passwordVisibility, toggleText, handlePasswordVisibility } =
     useTogglePasswordVisibility();
@@ -28,25 +34,20 @@ export default ({ authType }) => {
 
   const onToggle = (e) => {
     if (authType === "register") {
-      console.log("toggled on register", e);
+      navigation.navigate("Login");
     }
     if (authType === "login") {
-      console.log("toggled on login", e);
+      navigation.navigate("Register");
     }
   };
+
+  // TODO solve problem with svg import
 
   return (
     <>
       {authType === "register" && (
         <View style={styles.avatarBox}>
-          <Image
-            source={
-              !isAvatar
-                ? require("../assets/add.svg")
-                : require("../assets/remove.svg")
-            }
-            style={styles.avatarIcon}
-          />
+          {/* <AddAvatar style={styles.avatarIcon} /> */}
         </View>
       )}
       <HeaderText size="lg" mt={30}>

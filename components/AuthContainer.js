@@ -10,38 +10,53 @@ import {
 
 export default ({ authType, children }) => {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ImageBackground
-        style={styles.image}
-        source={require("../assets/PhotoBG.jpg")}
-        resizeMode="cover"
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          // style={styles.inputContainer}
+    <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ImageBackground
+          source={require("../assets/PhotoBG.jpg")}
+          style={styles.image}
+          resizeMode="cover"
         >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View
-              style={[
-                styles.mainContainer,
-                authType === "register"
-                  ? styles.registerContainer
-                  : authType === "login"
-                  ? styles.loginContainer
-                  : null,
-              ]}
-            >
-              {children}
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    </TouchableWithoutFeedback>
+          <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <View
+                style={[
+                  styles.mainContainer,
+                  authType === "register"
+                    ? styles.registerContainer
+                    : authType === "login"
+                    ? styles.loginContainer
+                    : null,
+                ]}
+              >
+                {children}
+              </View>
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </TouchableWithoutFeedback>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    position: "relative",
+    flex: 1,
+    width: "100%",
+  },
+  image: {
+    flex: 1,
+    justifyContent: "flex-end",
+    width: "100%",
+    // нижнюю часть можно убрать и ничего не изменится
+
+    // position: "absolute",
+    // top: 0,
+    // height: "100%",
+  },
   mainContainer: {
+    flex: 0,
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 1)",
     paddingHorizontal: 16,
@@ -53,10 +68,5 @@ const styles = StyleSheet.create({
   },
   loginContainer: {
     // paddingBottom: 144,
-  },
-  image: {
-    flex: 1,
-    justifyContent: "flex-end",
-    width: "100%",
   },
 });
